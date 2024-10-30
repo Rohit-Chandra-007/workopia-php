@@ -1,0 +1,15 @@
+{
+  "name": "workopia",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "watch": "tailwindcss -i ./public/css/input.css -o ./public/css/output.css --watch",
+    "build": "tailwindcss -i ./public/css/input.css -o ./public/css/output.css --minify"
+  },
+  "author": "Rohit Chandra",
+  "license": "ISC",
+  "description": "Theme for Workopia",
+  "devDependencies": {
+    "tailwindcss": "^3.4.14"
+  }
+}
