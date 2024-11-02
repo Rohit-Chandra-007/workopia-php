@@ -4,17 +4,17 @@ loadPartialView('head')
 <?=
 loadPartialView('navbar')
 ?>
-<?=
-loadPartialView('showcase_search')
-?>
-<?=
-loadPartialView('top_banner')
-?>
 
-<main class="container   mx-auto p-4 mt-4">
+<main class="container mx-auto p-4 mt-4">
 
+    <div class="bg-blue-900 h-24 px-4 mb-4 flex justify-center items-center rounded">
+        <form action="get" method="get" class="flex flex-wrap justify-center">
+            <input type="text" placeholder="Job Title" class="w-full md:w-72 mx-1 px-4 py-2 text-gray-900 rounded-md focus:outline-none" />
+            <input type="text" placeholder="Location" class="w-full md:w-72 mx-1 px-4 py-2 text-gray-900 rounded-md focus:outline-none" />
+            <button class="bg-blue-600 hover:bg-blue-700 mx-1 px-6 py-2 rounded-md text-white">Search</button>
+        </form>
+    </div>
 
-    <h1 class="text-3xl font-bold text-center mb-10 border border-gray-300 p-3">Welcome To Workopia</h1>
     <div class="grid grid-cols-3 gap-6 mb-4">
 
         <!-- Job Card 1 -->
@@ -83,16 +83,6 @@ loadPartialView('top_banner')
             <button class="bg-blue-100 text-blue-700 font-bold py-2 px-4 rounded">Details</button>
         </div>
     </div>
-
-
-    <a href="/listings" class="block text-xl text-center">
-        <i class="fa fa-arrow-alt-circle-right"></i>
-        Show All Jobs
-    </a>
-
-
-
-
     <?= loadPartialView("bottom_banner") ?>
 </main>
 

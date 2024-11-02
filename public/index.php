@@ -8,7 +8,7 @@ $routes = [
     '/listings' => 'app/controller/listings/index.php',
     '/listings/create' => 'app/controller/listings/create.php',
     '404' => 'app/controller/error/404.php',
-    '/jobs' => 'app/controller/jobs/index.php',
+    
 ];
 
 // get the current route
