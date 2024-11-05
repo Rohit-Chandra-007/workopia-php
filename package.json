@@ -11,5 +11,8 @@
   "description": "Theme for Workopia",
   "devDependencies": {
     "tailwindcss": "^3.4.14"
+  },
+  "dependencies": {
+    "workopia": "file:"
   }
 }

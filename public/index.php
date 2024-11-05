@@ -2,21 +2,18 @@
 
 require '../helper.php';
 
-// routes
-$routes = [
-    '/' => 'app/controller/home.php',
-    '/listings' => 'app/controller/listings/index.php',
-    '/listings/create' => 'app/controller/listings/create.php',
-    '404' => 'app/controller/error/404.php',
-    
-];
+require basePath('Router.php');
+
+$router = new Router();
+
+$routes = require basePath('routes.php');
 
 // get the current route
 $route = $_SERVER['REQUEST_URI'];
+// get the current method
+$method = $_SERVER['REQUEST_METHOD'];
 
+// inspect($route);
+// inspect($method);
 
-if (array_key_exists($route, $routes)) {
-    require basePath($routes[$route]);
-} else {
-    require basePath($routes['404']);
-}
+$router->route($route, $method);
