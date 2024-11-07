@@ -17,71 +17,32 @@ loadPartialView('navbar')
 
     <div class="grid grid-cols-3 gap-6 mb-4">
 
-        <!-- Job Card 1 -->
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <div class="flex items-center mb-4">
-                <img src="https://via.placeholder.com/50" alt="job image" class="w-12 h-12 rounded-full mr-4">
-                <div>
-                    <h2 class="text-xl font-bold">Software Engineer (C#)</h2>
-                    <p class="text-sm text-gray-500">Full-Time</p>
-                </div>
-            </div>
-            <p class="text-gray-700 mb-4">
-                We are looking for a software engineer who is strategic Marketing Specialist to develop and execute...
-            </p>
-            <div class="mb-4">
-                <p class="text-gray-800 font-semibold">Salary: <span class="text-black">$140,000</span></p>
-                <p class="text-gray-800 font-semibold">Location: <span class="text-black">New York City, NY</span>
-                    <span class="inline-block bg-green-100 text-green-800 text-xs font-semibold ml-2 px-2.5 py-0.5 rounded">Remote</span>
-                </p>
-                <p class="text-gray-800 font-semibold">Tags: <span class="text-black">Development, Coding, Backend, Software</span></p>
-            </div>
-            <button class="bg-blue-100 text-blue-700 font-bold py-2 px-4 rounded">Details</button>
-        </div>
+        <?php foreach ($listings as $listing) : ?>
+            <div class="max-w-md rounded overflow-hidden shadow-lg mx-auto my-8">
+                <div class="p-6">
+                    <h2 class="text-2xl font-semibold text-indigo-800"><?= $listing->title ?>
+                    </h2>
 
-        <!-- Job Card 2 -->
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <div class="flex items-center mb-4">
-                <img src="https://via.placeholder.com/50" alt="job image" class="w-12 h-12 rounded-full mr-4">
-                <div>
-                    <h2 class="text-xl font-bold">Dog</h2>
-                    <p class="text-sm text-gray-500">Full-Time</p>
-                </div>
-            </div>
-            <p class="text-gray-700 mb-4">
-                Become a dog
-            </p>
-            <div class="mb-4">
-                <p class="text-gray-800 font-semibold">Salary: <span class="text-black">$200,000</span></p>
-                <p class="text-gray-800 font-semibold">Location: <span class="text-black">Nevada, USA</span>
-                    <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold ml-2 px-2.5 py-0.5 rounded">On-site</span>
-                </p>
-                <p class="text-gray-800 font-semibold">Tags: <span class="text-black">Pes, Fufín, Vlk</span></p>
-            </div>
-            <button class="bg-blue-100 text-blue-700 font-bold py-2 px-4 rounded">Details</button>
-        </div>
+                    <p class="text-gray-600 text-lg mt-4>"><?= $listing->description ?>
+                    </p>
 
-        <!-- Job Card 3 -->
-        <div class="bg-white p-6 rounded-lg shadow-lg">
-            <div class="flex items-center mb-4">
-                <img src="https://via.placeholder.com/50" alt="job image" class="w-12 h-12 rounded-full mr-4">
-                <div>
-                    <h2 class="text-xl font-bold">Software Engineer</h2>
-                    <p class="text-sm text-gray-500">Part-Time</p>
+                    <ul class=" my-6 bg-gray-50 p-4 rounded-lg">
+                        <li class="mb-3"><strong>Salary:</strong> <?= formatSalary($listing->salary) ?>
+                        </li>
+                        <li class="mb-3">
+                            <strong>Location:</strong> <?= $listing->city ?>, <?= $listing->state ?>
+                        </li>
+                        <?php if (!empty($listing->tags)) : ?>
+                            <li class="mb-3">
+                                <strong>Tags:</strong> <?= $listing->tags ?>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                    <a href="/listing?id=<?= $listing->id ?>" class="block w-full text-center px-6 py-3 shadow-md rounded-lg border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200"> View Details
+                    </a>
                 </div>
             </div>
-            <p class="text-gray-700 mb-4">
-                As a Software Engineer at Algorix, you will be responsible for designing, developing, and maintain...
-            </p>
-            <div class="mb-4">
-                <p class="text-gray-800 font-semibold">Salary: <span class="text-black">$90,000</span></p>
-                <p class="text-gray-800 font-semibold">Location: <span class="text-black">Albany, NY</span>
-                    <span class="inline-block bg-red-100 text-red-800 text-xs font-semibold ml-2 px-2.5 py-0.5 rounded">On-site</span>
-                </p>
-                <p class="text-gray-800 font-semibold">Tags: <span class="text-black">Development, Coding, Java, Python</span></p>
-            </div>
-            <button class="bg-blue-100 text-blue-700 font-bold py-2 px-4 rounded">Details</button>
-        </div>
+        <?php endforeach; ?>
     </div>
     <?= loadPartialView("bottom_banner") ?>
 </main>
