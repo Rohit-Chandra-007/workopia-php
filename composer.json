@@ -1,0 +1,16 @@
+{
+    "name": "rohit-chandra-007/workopia-php",
+    "description": "Workopia job listing website",
+    "authors": [
+        {
+            "name": "Rohit Chandra",
+            "email": "support@chandrarohit.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "Framework/",
+            "App\\": "App/"
+        }
+    }
+}

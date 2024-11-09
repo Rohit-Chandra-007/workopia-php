@@ -1,4 +1,11 @@
 <?php
+
+namespace Framework;
+
+use PDO;
+use PDOException;
+use Exception;
+
 class Database
 {
     public $connection;
@@ -31,16 +38,19 @@ class Database
      * Query the database
      *
      * @param string $query
+     * @param array $params
      * @return PDOStatement
      * @throws PDOException
      */
-    public function query($qurey)
+    public function sqlQuery($qurey, $params = [])
     {
-
+        $stmt = $this->connection->prepare($qurey);
 
         try {
-
-            $stmt = $this->connection->prepare($qurey);
+            // prepare the query    
+            foreach ($params as $param => $value) {
+                $stmt->bindValue(":{$param}", $value);
+            }
             $stmt->execute();
             return $stmt;
         } catch (PDOException $e) {

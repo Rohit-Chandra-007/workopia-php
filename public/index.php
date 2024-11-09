@@ -1,9 +1,10 @@
 <?php
 
+// require the composer autoload file
+require __DIR__ . '/../vendor/autoload.php';
 require '../helper.php';
-
-require basePath('Router.php');
-require basePath('Database.php');
+// require the database configuration
+use Framework\Router;
 
 $router = new Router();
 
@@ -14,7 +15,6 @@ $route = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 // get the current method
 $method = $_SERVER['REQUEST_METHOD'];
 
-//inspect($route);
-// inspect($method);
+
 
 $router->route($route, $method);
