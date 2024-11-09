@@ -8,5 +8,6 @@
         </div>
         <p class="text-center text-2xl mb-4"><?= $message ?></p>
     </div>
+    <a class="block text-center" href="/listings"><i class="fa fa-arrow-alt-circle-left"></i> Back To Listings</a>
 </section>
 <?= loadPartialView('footer') ?>

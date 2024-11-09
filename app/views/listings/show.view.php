@@ -7,7 +7,7 @@ loadPartialView('navbar')
 
 
 <div class="max-w-3xl mx-auto mt-6 bg-white rounded-lg shadow-md p-6">
-    <a href="#" class="text-blue-600 text-sm"><i class="fa fa-arrow-alt-circle-left"></i> Back To Listings</a>
+    <a href="/listings" class="text-blue-600 text-sm"><i class="fa fa-arrow-alt-circle-left"></i> Back To Listings</a>
     <h1 class="text-2xl font-bold mt-4"><?= $listing->title ?></h1>
     <p class="mt-4 text-gray-700"><?= $listing->description ?></p>
 

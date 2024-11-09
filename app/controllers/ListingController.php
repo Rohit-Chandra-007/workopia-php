@@ -43,9 +43,9 @@ class ListingController
      *
      * @return void
      */
-    public function show()
+    public function show($params)
     {
-        $id = $_GET['id'] ?? '';
+        $id = $params['id'] ?? '';
 
         $params = [
             'id' => $id
@@ -53,6 +53,11 @@ class ListingController
         // get the post
         $listing = $this->db->sqlQuery('SELECT * FROM listings WHERE id = :id', $params)->fetch();
 
+        // if the post is not found, show a 404 page
+        if (!$listing) {
+            ErrorController::show404("Listing not found");
+            return;
+        }
         loadView('listings/show', ['listing' => $listing]);
     }
 }

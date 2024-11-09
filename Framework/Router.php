@@ -84,24 +84,55 @@ class Router
 
     /**
      * Route the request 
-     * @param string $route
-     * @param string $method
+     * @param string $route 
      * @return void
      */
 
-    public function route($uri, $method)
+    public function route($uri)
     {
+        // get the current method
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        // loop through the routes and match the route
         foreach ($this->routes as $route) {
-            if ($route['uri'] === $uri && $route['method'] === $method) {
-                //code..
-                $controller = 'App\Controllers\\' . $route['controller'];
-                $controllerMethod = $route['controllerMethod'];
+            // split the uri into parts
 
-                // create a new instance of the controller and call the method
-                $controllerInstantance = new $controller();
-                $controllerInstantance->$controllerMethod();
+            $uriSegments = array_filter(explode('/', trim($uri, '/')));
+            // split the route into parts
+            # inspectAndDie($uriSegments);
+            $routeSegments = array_filter(explode('/', trim($route['uri'], '/')));
 
-                return;
+            // check if the route matches the uri
+            $match = true;
+            if (
+                count($uriSegments) === count($routeSegments)
+                && strtoupper($requestMethod === $route['method'])
+            ) {
+                $params = [];
+                $match = true;
+                // loop through the uri parts and check if they match the route parts
+                for ($i = 0; $i < count($uriSegments); $i++) {
+
+                    // if the uri part does not match the route part and the route part is not a parameter
+                    if ($uriSegments[$i] !== $routeSegments[$i] && !preg_match('/\{(.+?)\}/', $routeSegments[$i])) {
+                        $match = false;
+                        break;
+                    }
+                    // check for the parameters in the route and add them to the params array
+                    if (preg_match('/\{(.+?)\}/', $routeSegments[$i], $matches)) {
+                        $params[$matches[1]] = $uriSegments[$i];
+                    }
+                }
+
+                if ($match) {
+                    $controller = 'App\Controllers\\' . $route['controller'];
+                    $controllerMethod = $route['controllerMethod'];
+
+                    // create a new instance of the controller and call the method
+                    $controllerInstantance = new $controller();
+                    $controllerInstantance->$controllerMethod($params);
+
+                    return;
+                }
             }
         }
 
