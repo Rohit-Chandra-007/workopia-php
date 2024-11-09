@@ -59,5 +59,5 @@
   </div>
 </section>
 
-<?= loadPartialView('bottom_banner') ?>
+
 <?= loadPartialView('footer') ?>

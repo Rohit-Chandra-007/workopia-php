@@ -8,6 +8,12 @@ class HomeController
 {
     protected $db;
 
+    /**
+     * HomeController constructor.
+     * @param Database $db
+     * @return void
+     */
+
     public function __construct()
     {
         // get the database configuration
@@ -16,7 +22,11 @@ class HomeController
         $this->db = new Database($config);
     }
 
-
+    /**
+     * Show the home page
+     * 
+     * @return void
+     */
     public function index()
     {
         // get all the posts

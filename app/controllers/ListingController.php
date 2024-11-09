@@ -16,7 +16,11 @@ class ListingController
         $this->db = new Database($config);
     }
 
-
+    /**
+     * Show all the listings page
+     *
+     * @return void
+     */
     public function index()
     {
         // get all the posts
@@ -24,11 +28,21 @@ class ListingController
         loadView('listings/index', ['listings' => $listings]);
     }
 
+    /**
+     * Show the create listing page
+     *
+     * @return void
+     */
     public function create()
     {
         loadView('listings/create');
     }
 
+    /**
+     * Show the listing page
+     *
+     * @return void
+     */
     public function show()
     {
         $id = $_GET['id'] ?? '';
