@@ -49,7 +49,7 @@ class Database
         try {
             // prepare the query    
             foreach ($params as $param => $value) {
-                $stmt->bindValue(":{$param}", $value);
+                $stmt->bindValue(":{$param}", $value);  // bind the values to the query 
             }
             $stmt->execute();
             return $stmt;

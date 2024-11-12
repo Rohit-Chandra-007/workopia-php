@@ -40,7 +40,7 @@ loadPartialView('top_banner')
                             </li>
                         <?php endif; ?>
                     </ul>
-                    <a href="/listing/<?= $listing->id ?>" class="block w-full text-center px-6 py-3 shadow-md rounded-lg border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200"> View Details
+                    <a href="/listings/<?= $listing->id ?>" class="block w-full text-center px-6 py-3 shadow-md rounded-lg border text-base font-medium text-indigo-700 bg-indigo-100 hover:bg-indigo-200"> View Details
                     </a>
                 </div>
             </div>

@@ -81,3 +81,36 @@ function formatSalary($salary)
 {
     return "$" . number_format(floatval($salary), 2);
 }
+
+
+/**
+ * sanitize the data 
+ * @param string $drity
+ * @return string
+ */
+
+function sanitize($dirty)
+{
+    // First trim whitespace
+    $cleaned = trim($dirty);
+
+    // Convert special characters to HTML entities
+    $cleaned = htmlspecialchars($cleaned, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+    // Additional sanitization using filter_var
+    $cleaned = filter_var($cleaned, FILTER_SANITIZE_SPECIAL_CHARS);
+
+    return $cleaned;
+}
+
+/**
+ * Redirect to a given url
+ * @param string $path
+ * @return void
+ */
+
+function redirect($path)
+{
+    header("Location: {$path}");
+    exit;
+}

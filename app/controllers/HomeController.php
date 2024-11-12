@@ -17,7 +17,7 @@ class HomeController
     public function __construct()
     {
         // get the database configuration
-        $config = require basePath('app/config/db.php');
+        $config = require basePath('config/_db.php');
         // create a new database connection
         $this->db = new Database($config);
     }

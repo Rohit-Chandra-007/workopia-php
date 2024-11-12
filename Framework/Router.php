@@ -92,6 +92,12 @@ class Router
     {
         // get the current method
         $requestMethod = $_SERVER['REQUEST_METHOD'];
+
+        // check if the uri has a query string and remove it
+        if ($requestMethod === 'POST' && isset($_POST['_method'])) {
+            // override the request method with the value of the _method input
+            $requestMethod = strtoupper($_POST['_method']);
+        }
         // loop through the routes and match the route
         foreach ($this->routes as $route) {
             // split the uri into parts

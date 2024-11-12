@@ -7,7 +7,21 @@ loadPartialView('navbar')
 
 
 <div class="max-w-3xl mx-auto mt-6 bg-white rounded-lg shadow-md p-6">
-    <a href="/listings" class="text-blue-600 text-sm"><i class="fa fa-arrow-alt-circle-left"></i> Back To Listings</a>
+
+    <div class="flex justify-between items-center mt-4">
+        <a href="/listings<?= $listing->id ?>" class="text-blue-600 text-sm"><i class="fa fa-arrow-alt-circle-left"></i> Back To Listings</a>
+        <div class="flex space-x-4 ml-4">
+            <a href="/listings/edit/<?= $listing->id ?>" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded">Edit</a>
+
+            <!-- delete form -->
+            <form method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <button class="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded">Delete</button>
+            </form>
+            <!-- end delete form -->
+        </div>
+
+    </div>
     <h1 class="text-2xl font-bold mt-4"><?= $listing->title ?></h1>
     <p class="mt-4 text-gray-700"><?= $listing->description ?></p>
 
