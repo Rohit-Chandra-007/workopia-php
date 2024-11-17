@@ -2,7 +2,7 @@
 
 namespace Framework;
 
-use App\Controllers\ErrorController;
+use App\controllers\ErrorController;
 
 
 class Router
@@ -30,8 +30,8 @@ class Router
     }
 
     /**
-     * Add a GET routes 
-     * @param string $route
+     * Add a GET routes
+     * @param $uri
      * @param string $controller
      * @return void
      */
@@ -43,8 +43,8 @@ class Router
     }
 
     /**
-     * Add a POST routes 
-     * @param string $route
+     * Add a POST routes
+     * @param $uri
      * @param string $controller
      * @return void
      */
@@ -56,8 +56,8 @@ class Router
     }
 
     /**
-     * Add a PUT routes 
-     * @param string $route
+     * Add a PUT routes
+     * @param $uri
      * @param string $controller
      * @return void
      */
@@ -69,8 +69,8 @@ class Router
     }
 
     /**
-     * Add a DELETE routes 
-     * @param string $route
+     * Add a DELETE routes
+     * @param $uri
      * @param string $controller
      * @return void
      */
@@ -83,8 +83,8 @@ class Router
 
 
     /**
-     * Route the request 
-     * @param string $route 
+     * Route the request
+     * @param $uri
      * @return void
      */
 
@@ -114,17 +114,17 @@ class Router
                 && strtoupper($requestMethod === $route['method'])
             ) {
                 $params = [];
-                $match = true;
+
                 // loop through the uri parts and check if they match the route parts
                 for ($i = 0; $i < count($uriSegments); $i++) {
 
                     // if the uri part does not match the route part and the route part is not a parameter
-                    if ($uriSegments[$i] !== $routeSegments[$i] && !preg_match('/\{(.+?)\}/', $routeSegments[$i])) {
+                    if ($uriSegments[$i] !== $routeSegments[$i] && !preg_match('/\{(.+?)}/', $routeSegments[$i])) {
                         $match = false;
                         break;
                     }
                     // check for the parameters in the route and add them to the params array
-                    if (preg_match('/\{(.+?)\}/', $routeSegments[$i], $matches)) {
+                    if (preg_match('/\{(.+?)}/', $routeSegments[$i], $matches)) {
                         $params[$matches[1]] = $uriSegments[$i];
                     }
                 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\controllers;
 
+use Exception;
 use Framework\Database;
 use Framework\Validation;
 
@@ -9,6 +10,9 @@ class ListingController
 {
     protected $db;
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
         // get the database configuration
@@ -47,7 +51,7 @@ class ListingController
      */
     public function show($params)
     {
-        $id = $params['id'] ?? '';
+        $id = isset($params['id']) ? $params['id'] : '';
 
         $params = [
             'id' => $id
@@ -73,7 +77,7 @@ class ListingController
         $allowedField = ['title', 'description', 'job_type', 'salary', 'requirements', 'benefits', 'tags', 'company', 'address', 'city', 'state', 'phone', 'email'];
 
 
-        // associative array of the new listing data 
+        // associative array of the new listing data
         $newListingData = array_intersect_key($_POST, array_flip($allowedField));
 
         $newListingData['user_id'] = 1;
@@ -116,7 +120,7 @@ class ListingController
             }
             $values = implode(',', $values);
 
-            $sql = "INSERT INTO listings ({$fields}) VALUES ({$values})";
+            $sql = "INSERT INTO listings ($fields) VALUES ($values)";
             $this->db->sqlQuery($sql, $newListingData);
 
             // redirect to the listing page
@@ -130,7 +134,7 @@ class ListingController
      */
     public function destroy($params)
     {
-        $id = $params['id'] ?? '';
+        $id = isset($params['id']) ? $params['id'] : '';
 
         $params = [
             'id' => $id
@@ -143,7 +147,6 @@ class ListingController
             ErrorController::show404("Listing not found");
             return;
         }
-
 
 
         $this->db->sqlQuery('DELETE FROM listings WHERE id = :id', $params);
@@ -163,7 +166,7 @@ class ListingController
      */
     public function edit($params)
     {
-        $id = $params['id'] ?? '';
+        $id = isset($params['id']) ? $params['id'] : '';
 
         $params = [
             'id' => $id
@@ -193,7 +196,7 @@ class ListingController
 
     public function update($params)
     {
-        $id = $params['id'] ?? '';
+        $id = isset($params['id']) ? $params['id'] : '';
 
         $params = [
             'id' => $id
@@ -212,7 +215,6 @@ class ListingController
         $allowedField = ['title', 'description', 'job_type', 'salary', 'requirements', 'benefits', 'tags', 'company', 'address', 'city', 'state', 'phone', 'email'];
 
         // associative array of the new listing data
-        $updateValues = [];
 
         $updateValues = array_intersect_key($_POST, array_flip($allowedField));
 
@@ -239,10 +241,9 @@ class ListingController
 
             $fields = implode(',', $fields);
 
-            $sql = "UPDATE listings SET {$fields} WHERE id = :id";
+            $sql = "UPDATE listings SET $fields WHERE id = :id";
 
             $updateValues['id'] = $id;
-
 
 
             $this->db->sqlQuery($sql, $updateValues);

@@ -2,7 +2,7 @@
 
 /**
  * Get the base Path of the site
- * 
+ *
  * @param string $path
  * @return string
  */
@@ -13,42 +13,42 @@ function basePath($path = '')
 }
 
 /**
- * Load a view 
+ * Load a view
  * @param string $name
  * @param array $data
  * @return void
  */
 function loadView($name, $data = [])
 {
-    $viewPath = basePath("app/views/{$name}.view.php");
+    $viewPath = basePath("app/views/$name.view.php");
     if (file_exists($viewPath)) {
         // extract the data array
         extract($data);
         require $viewPath;
     } else {
-        echo "View {$name} not found";
+        echo "View $name not found";
     }
 }
 
 /**
- * Load a partial view 
+ * Load a partial view
  * @param string $name
  * @return void
  */
 function loadPartialView($name)
 {
-    $partialPath = basePath("app/views/partials/{$name}.php");
+    $partialPath = basePath("app/views/partials/$name.php");
     if (file_exists($partialPath)) {
         require $partialPath;
     } else {
-        echo "Partial View {$name} not found";
+        echo "Partial View $name not found";
     }
 }
 
 /**
  * Inspect a value(s)
  * @param mixed $value
- * @return void 
+ * @return void
  */
 
 function inspect($value)
@@ -57,17 +57,19 @@ function inspect($value)
     var_dump($value);
     echo "</pre>";
 }
+
 /**
  * Inspect a value(s) and die
  * @param mixed $value
- * @return void 
+ * @return void
  */
 
 function inspectAndDie($value)
 {
     echo "<pre>";
-    die(var_dump($value));
-    echo "</pre>";
+    die(print_r($value, true));
+
+
 }
 
 
@@ -84,8 +86,8 @@ function formatSalary($salary)
 
 
 /**
- * sanitize the data 
- * @param string $drity
+ * sanitize the data
+ * @param $dirty
  * @return string
  */
 
@@ -98,9 +100,7 @@ function sanitize($dirty)
     $cleaned = htmlspecialchars($cleaned, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 
     // Additional sanitization using filter_var
-    $cleaned = filter_var($cleaned, FILTER_SANITIZE_SPECIAL_CHARS);
-
-    return $cleaned;
+    return filter_var($cleaned, FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
 /**
@@ -111,6 +111,6 @@ function sanitize($dirty)
 
 function redirect($path)
 {
-    header("Location: {$path}");
+    header("Location: $path");
     exit;
 }

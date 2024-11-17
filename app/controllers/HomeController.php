@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Controllers;
+namespace App\controllers;
 
+use Exception;
 use Framework\Database;
 
 class HomeController
@@ -10,8 +11,7 @@ class HomeController
 
     /**
      * HomeController constructor.
-     * @param Database $db
-     * @return void
+     * @throws Exception
      */
 
     public function __construct()
@@ -24,7 +24,7 @@ class HomeController
 
     /**
      * Show the home page
-     * 
+     *
      * @return void
      */
     public function index()
