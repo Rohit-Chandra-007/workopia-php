@@ -7,7 +7,8 @@ loadPartialView('navbar')
 
 
 <div class="max-w-3xl mx-auto mt-6 bg-white rounded-lg shadow-md p-6">
-
+    <?= loadPartialView('message')
+    ?>
     <div class="flex justify-between items-center mt-4">
         <a href="/listings<?= $listing->id ?>" class="text-blue-600 text-sm"><i class="fa fa-arrow-alt-circle-left"></i> Back To Listings</a>
         <div class="flex space-x-4 ml-4">

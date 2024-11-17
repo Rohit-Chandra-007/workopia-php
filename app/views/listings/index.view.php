@@ -15,6 +15,9 @@ loadPartialView('navbar')
         </form>
     </div>
 
+    <?= loadPartialView('message')
+    ?>
+
     <div class="grid grid-cols-3 gap-6 mb-4">
 
         <?php foreach ($listings as $listing) : ?>

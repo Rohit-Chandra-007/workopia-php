@@ -1,8 +1,12 @@
 <?php
 
+// start session
+session_start();
+
 // require the composer autoload file
 require __DIR__ . '/../vendor/autoload.php';
 require '../helper.php';
+
 // require the database configuration
 use Framework\Router;
 

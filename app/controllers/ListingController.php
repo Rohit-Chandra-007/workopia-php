@@ -72,6 +72,8 @@ class ListingController
     {
         $allowedField = ['title', 'description', 'job_type', 'salary', 'requirements', 'benefits', 'tags', 'company', 'address', 'city', 'state', 'phone', 'email'];
 
+
+        // associative array of the new listing data 
         $newListingData = array_intersect_key($_POST, array_flip($allowedField));
 
         $newListingData['user_id'] = 1;
@@ -146,6 +148,110 @@ class ListingController
 
         $this->db->sqlQuery('DELETE FROM listings WHERE id = :id', $params);
 
+        // show a success message
+        $_SESSION['success_message'] = 'Listing deleted successfully';
+
         redirect('/listings');
+    }
+
+
+    /**
+     * Show edit listing page
+     * @param array $params
+     *
+     * @return void
+     */
+    public function edit($params)
+    {
+        $id = $params['id'] ?? '';
+
+        $params = [
+            'id' => $id
+        ];
+        // get the post
+        // her we are using the sqlQuery method to get a single row
+        // this is object @param mixed $listing
+        $listing = $this->db->sqlQuery('SELECT * FROM listings WHERE id = :id', $params)->fetch();
+
+        // if the post is not found, show a 404 page
+        if (!$listing) {
+            ErrorController::show404("Listing not found");
+            return;
+        }
+
+        //inspectAndDie($listing);
+        loadView('listings/edit', ['listing' => $listing]);
+    }
+
+
+    /**
+     * Update a listing
+     * @param array $params
+     *
+     * @return void
+     */
+
+    public function update($params)
+    {
+        $id = $params['id'] ?? '';
+
+        $params = [
+            'id' => $id
+        ];
+        // get the post
+        // her we are using the sqlQuery method to get a single row
+        // this is object @param mixed $listing
+        $listing = $this->db->sqlQuery('SELECT * FROM listings WHERE id = :id', $params)->fetch();
+
+        // if the post is not found, show a 404 page
+        if (!$listing) {
+            ErrorController::show404("Listing not found");
+            return;
+        }
+
+        $allowedField = ['title', 'description', 'job_type', 'salary', 'requirements', 'benefits', 'tags', 'company', 'address', 'city', 'state', 'phone', 'email'];
+
+        // associative array of the new listing data
+        $updateValues = [];
+
+        $updateValues = array_intersect_key($_POST, array_flip($allowedField));
+
+        $updateValues = array_map('sanitize', $updateValues);
+
+        $requiredFields = ['title', 'description', 'city', 'state', 'phone', 'email'];
+
+        $errors = [];
+        foreach ($requiredFields as $field) {
+            if (empty($updateValues[$field]) || !Validation::string($updateValues[$field])) {
+                $errors[$field] = ucfirst($field) . " is required";
+            }
+        }
+
+        if (!empty($errors)) {
+            // reload view with errors
+            loadView('listings/edit', ['errors' => $errors, 'listing' => $listing]);
+        } else {
+            // update the listing
+            $fields = [];
+            foreach ($updateValues as $field => $value) {
+                $fields[] = $field . ' = :' . $field;
+            }
+
+            $fields = implode(',', $fields);
+
+            $sql = "UPDATE listings SET {$fields} WHERE id = :id";
+
+            $updateValues['id'] = $id;
+
+
+
+            $this->db->sqlQuery($sql, $updateValues);
+
+            $_SESSION['success_message'] = 'Listing updated successfully';
+
+
+            // redirect to the listing page
+            redirect('/listings/' . $id);
+        }
     }
 }
