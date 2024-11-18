@@ -11,5 +11,11 @@ $router->get('/listings/{id}', 'ListingController@show');
 $router->post('/listings', 'ListingController@store');
 $router->put('/listings/{id}', 'ListingController@update');
 $router->delete('/listings/{id}', 'ListingController@destroy');
-$router->get('/auth/register', 'UserController@createUser');
+
+
+$router->get('/auth/register', 'UserController@register');
 $router->get('/auth/login', 'UserController@login');
+
+$router->post('/auth/register', 'UserController@createUser');
+$router->post('/auth/login', 'UserController@createUser');
+

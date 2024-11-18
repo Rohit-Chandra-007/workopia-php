@@ -28,59 +28,83 @@ class UserController
     public function login()
     {
         loadView('user/login');
-
-
     }
 
     /**
      * show the register page
-     * Create a new user with the provided name and email.
+     * @return void
+     */
+    public function register()
+    {
+        loadView('user/create');
+    }
+
+
+    /**
      *
-     * This function connects to the database, prepares and
-     * executes an SQL statement to insert a new user record.
-     *
-     * @param string $name The name of the user to create.
-     * @param string $email The email of the user to create.
+     * Create a new user and store in database
      *
      * @return void
      */
 
     public function createUser()
     {
-        loadView('user/create');
-    }
+        $name = $_POST['name'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $city = $_POST['city'] ?? '';
+        $state = $_POST['state'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $confirm_password = $_POST['confirm_password'] ?? '';
 
-    public function getUser($id)
-    {
-        // Connect to the database
-        $conn = new mysqli('localhost', 'username', 'password', 'database');
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        // validate the user input
+        $errors = [];
+        if (!Validation::email($email)) {
+            $errors['email'] = 'Please Enter Valid Email Address';
+        }
+        if (!Validation::string($name, 2, 50)) {
+            $errors['name'] = 'Name must be between 2 to 50 character';
+        }
+        if (!Validation::string($password, 6)) {
+            $errors['password'] = 'Password atleast contain 6 letter';
+        }
+        if (!Validation::match($password, $confirm_password)) {
+            $errors['password'] = 'Password did not match please check it';
         }
 
-        // Prepare and execute
-        $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
 
-        // Get result
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            // Output data of each row
-            while ($row = $result->fetch_assoc()) {
-                echo "id: " . $row["id"] . " - Name: " . $row["name"] . " - Email: " . $row["email"] . "<br>";
-            }
-        } else {
-            echo "0 results";
+        if (!empty($errors)) {
+            loadView('user/create', [
+                'errors' => $errors,
+                'user' => [
+                    'name' => $name,
+                    'email' => $email,
+                    'city' => $city,
+                    'state' => $state,
+                ]
+            ]);
+            exit();
         }
 
-        // Close connections
-        $stmt->close();
-        $conn->close();
+        // let check if email address already exits
+
+        $param = [
+            'email' => $email
+        ];
+
+        $user = $this->db->sqlQuery('SELECT * FROM users WHERE email=:email', $param);
+        if ($user) {
+            $errors['email'] = 'That Email Already Exists';
+            loadView('user/create', [
+                'errors' => $errors,
+                'user' => [
+                    'name' => $name,
+                    'email' => $email,
+                    'city' => $city,
+                    'state' => $state,
+                ]
+            ]);
+            exit();
+        }
+
     }
 }
-
-?>
