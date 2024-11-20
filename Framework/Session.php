@@ -14,12 +14,12 @@ class Session
      * Set a session key/value pair
      *
      * @param string $key
-     * @param mixed $value
+     * @param mixed $value 
      *
      * @return void
      *
      */
-    public static function setSession(string $key, $value)
+    public static function setSession($key, $value)
     {
         $_SESSION[$key] = $value;
 
@@ -69,5 +69,29 @@ class Session
     {
         session_unset();
         session_destroy();
+    }
+
+    /**
+     * Set a flash message
+     * @param string $key
+     * @param string $message
+     * @return void
+     */
+    public static function setFlashMessage(string $key, string $message)
+    {
+        self::setSession('flash_' . $key, $message);
+    }
+
+    /**
+     * Get a flash message
+     * @param string $key
+     * @param string $default
+     * @return string
+     */
+    public static function getFlashMessage(string $key, string $default = null): string
+    {
+        $message = self::getSession('flash_' . $key, $default);
+        self::clearSession('flash_' . $key);
+        return $message;
     }
 }

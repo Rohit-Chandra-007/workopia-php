@@ -3,7 +3,9 @@
 namespace App\controllers;
 
 use Exception;
+use Framework\Authorization;
 use Framework\Database;
+use Framework\Session;
 use Framework\Validation;
 
 class ListingController
@@ -29,7 +31,7 @@ class ListingController
     public function index()
     {
         // get all the posts
-        $listings = $this->db->sqlQuery('SELECT * FROM listings')->fetchAll();
+        $listings = $this->db->sqlQuery('SELECT * FROM listings ORDER BY created_at DESC')->fetchAll();
         loadView('listings/index', ['listings' => $listings]);
     }
 
@@ -80,7 +82,7 @@ class ListingController
         // associative array of the new listing data
         $newListingData = array_intersect_key($_POST, array_flip($allowedField));
 
-        $newListingData['user_id'] = 1;
+        $newListingData['user_id'] = Session::getSession('user')['id'];
 
         $newListingData = array_map('sanitize', $newListingData);
 
@@ -146,6 +148,14 @@ class ListingController
         if (!$listing) {
             ErrorController::show404("Listing not found");
             return;
+        }
+
+        // Authentication
+        if (!Authorization::isOnwer($listing->user_id)) {
+
+            $_SESSION['error_message'] = 'You are not authorize to delete this listing';
+            return redirect('/listings/' . $listing->id);
+
         }
 
 

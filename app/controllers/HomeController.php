@@ -30,7 +30,7 @@ class HomeController
     public function index()
     {
         // get all the posts
-        $listings = $this->db->sqlQuery('SELECT * FROM listings LIMIT 6')->fetchAll();
+        $listings = $this->db->sqlQuery('SELECT * FROM listings ORDER BY created_at DESC LIMIT 6')->fetchAll();
         loadView('home', ['listings' => $listings]);
     }
 }
