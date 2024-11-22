@@ -88,7 +88,7 @@ class Session
      * @param string $default
      * @return string
      */
-    public static function getFlashMessage(string $key, string $default = null): string
+    public static function getFlashMessage(string $key, string $default = null) 
     {
         $message = self::getSession('flash_' . $key, $default);
         self::clearSession('flash_' . $key);

@@ -125,6 +125,8 @@ class ListingController
             $sql = "INSERT INTO listings ($fields) VALUES ($values)";
             $this->db->sqlQuery($sql, $newListingData);
 
+            Session::setFlashMessage('success_message', 'Listing created successfully');
+
             // redirect to the listing page
             redirect('/listings');
         }
@@ -152,8 +154,7 @@ class ListingController
 
         // Authentication
         if (!Authorization::isOnwer($listing->user_id)) {
-
-            $_SESSION['error_message'] = 'You are not authorize to delete this listing';
+            Session::setFlashMessage('error_message', 'You are not authorize to delete this listing');
             return redirect('/listings/' . $listing->id);
 
         }
@@ -162,7 +163,8 @@ class ListingController
         $this->db->sqlQuery('DELETE FROM listings WHERE id = :id', $params);
 
         // show a success message
-        $_SESSION['success_message'] = 'Listing deleted successfully';
+
+        Session::setFlashMessage('success_message', 'Listing deleted successfully');
 
         redirect('/listings');
     }
@@ -222,6 +224,13 @@ class ListingController
             return;
         }
 
+        // Authentication
+        if (!Authorization::isOnwer($listing->user_id)) {
+            Session::setFlashMessage('error_message', 'You are not authorize to update this listing');
+            return redirect('/listings/' . $listing->id);
+
+        }
+
         $allowedField = ['title', 'description', 'job_type', 'salary', 'requirements', 'benefits', 'tags', 'company', 'address', 'city', 'state', 'phone', 'email'];
 
         // associative array of the new listing data
@@ -258,11 +267,41 @@ class ListingController
 
             $this->db->sqlQuery($sql, $updateValues);
 
-            $_SESSION['success_message'] = 'Listing updated successfully';
+
+            Session::setFlashMessage('success_message', 'Listing updated successfully');
 
 
             // redirect to the listing page
             redirect('/listings/' . $id);
         }
     }
+
+
+
+    /**
+     * Search listings by keyword/location
+     *
+     * @return void
+     */
+    public function search()
+    {
+
+
+        //inspectAndDie($_GET);
+        $keywords = isset($_GET['keywords']) ? $_GET['keywords'] : '';
+        $location = isset($_GET['location']) ? $_GET['location'] : '';
+
+        $params = [
+            'keyword' => "%{$keywords}%",
+            'location' => "%{$location}%"
+        ];
+
+        $query = "SELECT * FROM listings WHERE (title LIKE :keyword OR description LIKE :keyword OR tags LIKE :keyword) AND (city LIKE :location OR state LIKE :location)";
+
+        $listings = $this->db->sqlQuery($query, $params)->fetchAll();
+
+        loadView('listings/index', ['listings' => $listings]);
+    }
+
+
 }

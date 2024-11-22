@@ -5,6 +5,9 @@ namespace Framework;
 class Authorization
 {
     /**
+     * Check if the user is the owner of the resource
+     * @param $resourceId
+     * @return bool
      *
      */
     public static function isOnwer($resourceId)
